@@ -1,0 +1,61 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>TeleportPlugin</AssemblyName>
+    <RootNamespace>TeleportPlugin</RootNamespace>
+    <LangVersion>latest</LangVersion>
+    <!--
+      EnableDynamicLoading is REQUIRED so the plugin loader
+      can load this assembly at runtime via McMaster.NETCore.Plugins.
+    -->
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <SelfContained>false</SelfContained>
+    <DebugType>embedded</DebugType>
+
+    <!--
+      PublishDir targets: run `dotnet publish -c Release -r <rid>` to get the
+      plugin DLL in the correct plugins/<PluginName>/ subfolder next to the server.
+      Adjust the relative path (..\out-*) to match your folder layout.
+    -->
+    <PublishDir Condition="'$(RuntimeIdentifier)' == 'win-x64'">..\out-win-x64\plugins\$(MSBuildProjectName)\</PublishDir>
+    <PublishDir Condition="'$(RuntimeIdentifier)' == 'linux-x64'">..\out-linux-x64\plugins\$(MSBuildProjectName)\</PublishDir>
+  </PropertyGroup>
+
+  <!--
+    Reference the server DLLs. Set Private=false and ExcludeAssets=runtime so
+    they are NOT copied to the output folder (they are already in the server folder).
+
+    Point HintPath to wherever you extracted / built AssettoServer v0.0.54.
+    Example (Windows): C:\AssettoServer\AssettoServer.dll
+    Example (shared source build): ..\AssettoServer\bin\Release\net8.0\AssettoServer.dll
+  -->
+  <ItemGroup>
+    <Reference Include="AssettoServer">
+      <HintPath>..\AssettoServer\bin\Release\net8.0\AssettoServer.dll</HintPath>
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </Reference>
+    <Reference Include="AssettoServer.Shared">
+      <HintPath>..\AssettoServer\bin\Release\net8.0\AssettoServer.Shared.dll</HintPath>
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </Reference>
+  </ItemGroup>
+
+  <!--
+    Qmmands is already loaded by the server. Mark it Private=false so we
+    compile against it but do NOT bundle a second copy in the plugin output.
+  -->
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="7.1.0" PrivateAssets="all" />
+    <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" PrivateAssets="all" />
+    <PackageReference Include="Qmmands" Version="5.0.2">
+      <Private>false</Private>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>

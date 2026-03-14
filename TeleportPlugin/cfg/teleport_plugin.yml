@@ -1,0 +1,9 @@
+# Teleport Plugin – cfg/teleport_plugin.yml
+# Copy this file into the AssettoServer cfg/ folder.
+
+# Offset in metres added on the X axis when spawning next to the target car.
+# Prevents the two cars from perfectly overlapping.
+SpawnOffsetMeters: 3.0
+
+# Send a chat notification to the target player when someone teleports to them.
+NotifyTarget: true
