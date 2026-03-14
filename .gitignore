@@ -1,0 +1,10 @@
+# Build artifacts
+**/bin/
+**/obj/
+
+# Local packaging artifacts
+release-artifacts/
+*.zip
+
+# Local AssettoServer copy used for references
+AssettoServer/
