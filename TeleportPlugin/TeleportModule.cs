@@ -15,6 +15,9 @@ public class TeleportModule : AssettoServerModule<TeleportConfiguration>
     {
         // TeleportCommandModule (ACModuleBase) is discovered automatically
         // by ChatService via _commandService.AddModules(plugin.Assembly).
-        // No manual registration needed here unless we add an IAssettoServerAutostart.
+        builder.RegisterType<TeleportAutostart>()
+            .AsSelf()
+            .As<IAssettoServerAutostart>()
+            .SingleInstance();
     }
 }
